@@ -9,6 +9,7 @@ internal extension EnvironmentValues {
     @Entry var splitViewElasticBehavior: SplitViewElasticBehaviour = .automatic
     @Entry var splitViewDragIndicator: Visibility = .automatic
     @Entry var splitViewResizeBehavior: SplitViewResizeBehavior = .automatic
+    @Entry var isDragEnabled: Bool = false
 }
 
 public enum SplitViewResizeBehavior: Sendable {

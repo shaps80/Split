@@ -76,6 +76,7 @@ public struct SplitView<Primary, Secondary, Separator>: View where Primary: View
                     )
                     .zIndex(1)
                 ResizeView(context: context)
+                    .environment(\.isDragEnabled, isDragEnabled)
                 secondary
                     .zIndex(1)
             }
@@ -179,26 +180,6 @@ public struct SplitView<Primary, Secondary, Separator>: View where Primary: View
                     currentDetent = selection
                 }
             }
-#if os(macOS)
-            .onHover { hovering in
-                isHovering = hovering
-                if hovering, isDragEnabled {
-                    switch axis {
-                    case .horizontal:
-                        NSCursor.resizeLeftRight.push()
-                    case .vertical:
-                        NSCursor.resizeUpDown.push()
-                    }
-                } else {
-                    NSCursor.pop()
-                }
-            }
-            .onChange(of: isDragging) { _, dragging in
-                if !dragging && !isHovering {
-                    NSCursor.pop()
-                }
-            }
-#endif
     }
 
     private var isDragEnabled: Bool {
@@ -292,17 +273,18 @@ private struct Preview: View {
             Color.blue
                 .overlay(alignment: .top) { Text("Top").padding(25) }
                 .overlay(alignment: .bottom) { Text("Bottom").padding(25) }
-        } separator: {
-            Rectangle()
-                .foregroundStyle(.bar)
-                .frame(height: 30)
-                .overlay(alignment: .trailing) {
-                    Image(systemName: "line.3.horizontal")
-                        .fontWeight(.heavy)
-                        .foregroundStyle(.quaternary)
-                        .padding(.trailing, 10)
-                }
         }
+//        separator: {
+//            Rectangle()
+//                .foregroundStyle(.bar)
+//                .frame(height: 30)
+//                .overlay(alignment: .trailing) {
+//                    Image(systemName: "line.3.horizontal")
+//                        .fontWeight(.heavy)
+//                        .foregroundStyle(.quaternary)
+//                        .padding(.trailing, 10)
+//                }
+//        }
         .frame(maxWidth: .infinity)
         .background(.quinary)
         .ignoresSafeArea()

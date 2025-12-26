@@ -4,8 +4,8 @@ public struct SplitViewSeparator: View {
     @Environment(\.splitViewDragging) private var isDragging
     @Environment(\.splitViewAxis) private var axis
     @Environment(\.splitViewDragIndicator) private var indicatorVisibility
-
-    internal init() { }
+    @Environment(\.isDragEnabled) private var isDragEnabled
+    @State private var isHovering: Bool = false
 
     public var body: some View {
         Rectangle()
@@ -30,6 +30,27 @@ public struct SplitViewSeparator: View {
                 width: axis == .horizontal ? 1 : nil,
                 height: axis == .vertical ? 1 : nil
             )
+#endif
+#if os(macOS)
+            .contentShape(.interaction, .rect.inset(by: -5))
+            .onHover { hovering in
+                isHovering = hovering
+                if hovering, isDragEnabled {
+                    switch axis {
+                    case .horizontal:
+                        NSCursor.resizeLeftRight.push()
+                    case .vertical:
+                        NSCursor.resizeUpDown.push()
+                    }
+                } else {
+                    NSCursor.pop()
+                }
+            }
+            .onChange(of: isDragging) { _, dragging in
+                if !dragging && !isHovering {
+                    NSCursor.pop()
+                }
+            }
 #endif
     }
 
