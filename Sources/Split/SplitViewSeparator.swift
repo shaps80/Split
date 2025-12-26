@@ -8,14 +8,14 @@ public struct SplitViewSeparator: View {
     @State private var isHovering: Bool = false
 
     public var body: some View {
-        Rectangle()
 #if os(macOS)
-            .foregroundStyle(.background)
+        Divider()
             .frame(
                 width: axis == .horizontal ? 1 : nil,
                 height: axis == .vertical ? 1 : nil
             )
 #else
+        Rectangle()
             .foregroundStyle(.background)
             .frame(
                 width: axis == .horizontal ? 2 : nil,
