@@ -287,7 +287,6 @@ private struct Preview: View {
 //        }
         .frame(maxWidth: .infinity)
         .background(.quinary)
-        .ignoresSafeArea()
         .overlay {
             Picker("", selection: $selection) {
                 Text("Small").tag(SplitDetent.small)

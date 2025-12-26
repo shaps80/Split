@@ -8,27 +8,36 @@ public struct SplitViewSeparator: View {
     @State private var isHovering: Bool = false
 
     public var body: some View {
-        Divider()
-#if os(iOS) || os(tvOS)
+        Rectangle()
+#if os(macOS)
+            .foregroundStyle(.background)
             .frame(
-                width: axis == .horizontal ? 8 : nil,
-                height: axis == .vertical ? 8 : nil
+                width: axis == .horizontal ? 2 : nil,
+                height: axis == .vertical ? 2 : nil
+            )
+#else
+            .foregroundStyle(.background)
+            .frame(
+                width: axis == .horizontal ? 4 : nil,
+                height: axis == .vertical ? 4 : nil
             )
             .overlay {
-                Capsule()
-                    .foregroundStyle(.foreground)
-                    .frame(
-                        width: axis == .horizontal ? 4 : 40,
-                        height: axis == .horizontal ? 40 : 4
-                    )
-                    .opacity(isIndicatorVisible ? 1 : 0)
-                    .scaleEffect(isIndicatorVisible ? 1 : 0.9)
+                ZStack {
+                    Image(systemName: "circle.fill")
+                        .foregroundStyle(.background)
+
+                    Image(systemName: "arrow.up.and.down")
+                        .foregroundStyle(.foreground)
+                        .imageScale(.small)
+                }
+                .compositingGroup()
+                .drawingGroup()
+                .imageScale(.large)
+                .font(.title3)
+                .blur(radius: isIndicatorVisible ? 0 : 4)
+                .opacity(isIndicatorVisible ? 1 : 0)
+                .scaleEffect(isIndicatorVisible ? 1 : 0.9)
             }
-#else
-            .frame(
-                width: axis == .horizontal ? 1 : nil,
-                height: axis == .vertical ? 1 : nil
-            )
 #endif
 #if os(macOS)
             .contentShape(.interaction, .rect.inset(by: -5))
