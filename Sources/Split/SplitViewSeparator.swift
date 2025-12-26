@@ -43,7 +43,7 @@ public struct SplitViewSeparator: View {
             .overlay {
                 ZStack {
                     Image(systemName: "circle.fill")
-                        .foregroundStyle(.background)
+                        .foregroundStyle(Color(uiColor: .opaqueSeparator))
 
                     Image(systemName: "arrow.up.and.down")
                         .foregroundStyle(.foreground)
