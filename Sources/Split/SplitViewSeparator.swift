@@ -10,6 +10,7 @@ public struct SplitViewSeparator: View {
     public var body: some View {
 #if os(macOS)
         Divider()
+            .extendBackground()
             .frame(
                 width: axis == .horizontal ? 1 : nil,
                 height: axis == .vertical ? 1 : nil
@@ -33,10 +34,10 @@ public struct SplitViewSeparator: View {
                     NSCursor.pop()
                 }
             }
-            .extendBackground()
 #else
         Rectangle()
             .foregroundStyle(.separator)
+            .extendBackground()
             .frame(
                 width: axis == .horizontal ? 2 : nil,
                 height: axis == .vertical ? 2 : nil
@@ -59,7 +60,6 @@ public struct SplitViewSeparator: View {
                 .scaleEffect(isIndicatorVisible ? 1 : 0.9)
             }
             .contentShape(.interaction, .rect.inset(by: -5))
-            .extendBackground()
 #endif
     }
 
