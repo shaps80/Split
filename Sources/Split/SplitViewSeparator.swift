@@ -14,6 +14,25 @@ public struct SplitViewSeparator: View {
                 width: axis == .horizontal ? 1 : nil,
                 height: axis == .vertical ? 1 : nil
             )
+            .contentShape(.interaction, .rect.inset(by: -5))
+            .onHover { hovering in
+                isHovering = hovering
+                if hovering, isDragEnabled {
+                    switch axis {
+                    case .horizontal:
+                        NSCursor.resizeLeftRight.push()
+                    case .vertical:
+                        NSCursor.resizeUpDown.push()
+                    }
+                } else {
+                    NSCursor.pop()
+                }
+            }
+            .onChange(of: isDragging) { _, dragging in
+                if !dragging && !isHovering {
+                    NSCursor.pop()
+                }
+            }
 #else
         Rectangle()
             .foregroundStyle(.background)
@@ -38,27 +57,7 @@ public struct SplitViewSeparator: View {
                 .opacity(isIndicatorVisible ? 1 : 0)
                 .scaleEffect(isIndicatorVisible ? 1 : 0.9)
             }
-#endif
-#if os(macOS)
             .contentShape(.interaction, .rect.inset(by: -5))
-            .onHover { hovering in
-                isHovering = hovering
-                if hovering, isDragEnabled {
-                    switch axis {
-                    case .horizontal:
-                        NSCursor.resizeLeftRight.push()
-                    case .vertical:
-                        NSCursor.resizeUpDown.push()
-                    }
-                } else {
-                    NSCursor.pop()
-                }
-            }
-            .onChange(of: isDragging) { _, dragging in
-                if !dragging && !isHovering {
-                    NSCursor.pop()
-                }
-            }
 #endif
     }
 
