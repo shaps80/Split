@@ -12,14 +12,14 @@ public struct SplitViewSeparator: View {
 #if os(macOS)
             .foregroundStyle(.background)
             .frame(
-                width: axis == .horizontal ? 2 : nil,
-                height: axis == .vertical ? 2 : nil
+                width: axis == .horizontal ? 1 : nil,
+                height: axis == .vertical ? 1 : nil
             )
 #else
             .foregroundStyle(.background)
             .frame(
-                width: axis == .horizontal ? 4 : nil,
-                height: axis == .vertical ? 4 : nil
+                width: axis == .horizontal ? 2 : nil,
+                height: axis == .vertical ? 2 : nil
             )
             .overlay {
                 ZStack {
