@@ -34,7 +34,8 @@ public struct SplitViewSeparator: View {
                 }
             }
 #else
-        Divider()
+        Rectangle()
+            .foregroundStyle(.separator)
             .frame(
                 width: axis == .horizontal ? 2 : nil,
                 height: axis == .vertical ? 2 : nil
