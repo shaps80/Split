@@ -33,6 +33,7 @@ public struct SplitViewSeparator: View {
                     NSCursor.pop()
                 }
             }
+            .extendBackground()
 #else
         Rectangle()
             .foregroundStyle(.separator)
@@ -58,6 +59,7 @@ public struct SplitViewSeparator: View {
                 .scaleEffect(isIndicatorVisible ? 1 : 0.9)
             }
             .contentShape(.interaction, .rect.inset(by: -5))
+            .extendBackground()
 #endif
     }
 
@@ -66,6 +68,17 @@ public struct SplitViewSeparator: View {
         case .automatic: isDragging
         case .visible: true
         case .hidden: false
+        }
+    }
+}
+
+private extension View {
+    @ViewBuilder
+    func extendBackground() -> some View {
+        if #available(iOS 26, macOS 26, tvOS 26, *) {
+            backgroundExtensionEffect()
+        } else {
+            self
         }
     }
 }
